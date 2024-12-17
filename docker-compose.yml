@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: springboot-app
+    ports:
+      - "80:80"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:log4jdbc:oracle:thin:@oracle_db:1521/xepdb1
+      - SPRING_DATASOURCE_USERNAME=sesac_highend
+      - SPRING_DATASOURCE_PASSWORD=h12345d
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+    depends_on:
+      - redis
+      - oracle_db
+
+  redis:
+    image: redis:latest
+    container_name: redis-server
+    ports:
+      - "6379:6379"
+
+  oracle_db:
+    image: gvenzl/oracle-xe:latest
+    container_name: oracle-db
+    environment:
+      - ORACLE_PASSWORD=h12345d          # Oracle 비밀번호 설정
+      - ORACLE_PDB=xepdb1                # PDB(Pluggable Database) 이름 설정
+      - ORACLE_DATABASE=xepdb1           # 데이터베이스 이름 설정
+    ports:
+      - "1521:1521"
