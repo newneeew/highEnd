@@ -5,7 +5,7 @@ services:
     build: .
     container_name: springboot-app
     ports:
-      - "80:80"  # 호스트 포트 8080을 컨테이너 포트 80에 매핑
+      - "8080:80"  # 호스트 포트 8080을 컨테이너 포트 80에 매핑
     environment:
       - SPRING_DATASOURCE_URL=jdbc:log4jdbc:oracle:thin:@oracle_db:1521/xepdb1
       - SPRING_DATASOURCE_USERNAME=sesac_highend
