@@ -10,21 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      redis:
-        image: redis:latest
-        ports:
-          - 6379:6379
-
-      oracle_db:
-        image: gvenzl/oracle-xe:latest
-        ports:
-          - 1521:1521
-        env:
-          ORACLE_PASSWORD: h12345d
-          ORACLE_PDB: xepdb1
-          ORACLE_DATABASE: xepdb1
-
     steps:
       # 1. 코드 체크아웃
       - name: Checkout Code

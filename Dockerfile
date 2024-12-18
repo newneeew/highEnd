@@ -9,7 +9,7 @@ ARG JAR_FILE=build/libs/shop-0.0.1-SNAPSHOT.jar
 COPY ${JAR_FILE} app.jar
 
 # 포트 설정
-EXPOSE 8080
+EXPOSE 80
 
 # Spring Boot 애플리케이션 실행
 ENTRYPOINT ["java", "-jar", "app.jar"]
