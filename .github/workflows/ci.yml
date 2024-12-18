@@ -60,17 +60,21 @@ jobs:
 
       # 6. Gradle 빌드 및 상세 로그 출력
       - name: Build with Gradle
-        run: ./gradlew build --info
+        run: ./gradlew bootJar --info
 
-      # 7. Docker 이미지 빌드
+      # 7. JAR 파일 존재 확인
+      - name: Verify JAR File
+        run: ls -la build/libs
+
+      # 8. Docker 이미지 빌드
       - name: Build Docker Image
         run: docker build -t springboot-app .
 
-      # 8. Docker Compose로 서비스 실행
+      # 9. Docker Compose로 서비스 실행 (필요 시)
       - name: Run Docker Compose
         run: docker-compose up -d
 
-      # 9. Docker 컨테이너 실행 확인
+      # 10. Docker 컨테이너 실행 확인
       - name: Test Docker Container
         run: |
           docker run --rm -p 80:80 --name springboot-test-app springboot-app &
