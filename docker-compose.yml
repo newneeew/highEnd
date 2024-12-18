@@ -1,76 +1,33 @@
-name: CI Pipeline
+version: '3.8'
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+services:
+  app:
+    build: .
+    container_name: springboot-app
+    ports:
+      - "80:80"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:log4jdbc:oracle:thin:@oracle_db:1521/xepdb1
+      - SPRING_DATASOURCE_USERNAME=sesac_highend
+      - SPRING_DATASOURCE_PASSWORD=h12345d
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+    depends_on:
+      - redis
+      - oracle_db
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+  redis:
+    image: redis:latest
+    container_name: redis-server
+    ports:
+      - "6379:6379"
 
-    services:
-      redis:
-        image: redis:latest
-        ports:
-          - 6379:6379
-
-      oracle_db:
-        image: gvenzl/oracle-xe:latest
-        ports:
-          - 1521:1521
-        env:
-          ORACLE_PASSWORD: h12345d
-          ORACLE_PDB: xepdb1
-          ORACLE_DATABASE: xepdb1
-
-    steps:
-      # 1. 코드 체크아웃
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      # 2. JDK 21 설정
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-
-      # 3. Docker Compose 설치
-      - name: Install Docker Compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
-
-      # 4. Gradle 캐싱
-      - name: Cache Gradle Dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            gradle-${{ runner.os }}-
-
-      # 5. Gradle 실행 권한 부여
-      - name: Grant Execute Permission for Gradle Wrapper
-        run: chmod +x ./gradlew
-
-      # 6. Gradle 빌드 및 상세 로그 출력
-      - name: Build with Gradle
-        run: ./gradlew build --info
-
-      # 7. Docker Compose로 서비스 실행
-      - name: Run Docker Compose
-        run: docker-compose up -d
-
-      # 8. Docker 이미지 빌드
-      - name: Build Docker Image
-        run: docker build -t springboot-app .
-
-      # 9. Docker 컨테이너 실행 확인
-      - name: Test Docker Container
-        run: |
-          docker run --rm -p 80:80 --name springboot-test-app springboot-app &
-          sleep 10
-          curl --fail http://localhost || exit 1
+  oracle_db:
+    image: gvenzl/oracle-xe:latest
+    container_name: oracle-db
+    environment:
+      - ORACLE_PASSWORD=h12345d          # Oracle 비밀번호 설정
+      - ORACLE_PDB=xepdb1                # PDB(Pluggable Database) 이름 설정
+      - ORACLE_DATABASE=xepdb1           # 데이터베이스 이름 설정
+    ports:
+      - "1521:1521"
