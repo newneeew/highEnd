@@ -5,7 +5,7 @@ FROM openjdk:21-jdk
 LABEL authors="newneeew"
 
 # Spring Boot JAR 파일 복사
-ARG JAR_FILE=build/libs/springboot-app-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=build/libs/shop-0.0.1-SNAPSHOT.jar
 COPY ${JAR_FILE} app.jar
 
 # 포트 설정
