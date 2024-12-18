@@ -62,13 +62,13 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build --info
 
-      # 7. Docker Compose로 서비스 실행
-      - name: Run Docker Compose
-        run: docker-compose up -d
-
-      # 8. Docker 이미지 빌드
+      # 7. Docker 이미지 빌드
       - name: Build Docker Image
         run: docker build -t springboot-app .
+
+      # 8. Docker Compose로 서비스 실행
+      - name: Run Docker Compose
+        run: docker-compose up -d
 
       # 9. Docker 컨테이너 실행 확인
       - name: Test Docker Container
