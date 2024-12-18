@@ -5,7 +5,7 @@ services:
     build: .
     container_name: springboot-app
     ports:
-      - "80:80"
+      - "80:80"  # 테스트 목적이라면 유지, 필요 없으면 제거 가능
     environment:
       - SPRING_DATASOURCE_URL=jdbc:log4jdbc:oracle:thin:@oracle_db:1521/xepdb1
       - SPRING_DATASOURCE_USERNAME=sesac_highend
@@ -19,8 +19,9 @@ services:
   redis:
     image: redis:latest
     container_name: redis-server
-    ports:
-      - "6379:6379"
+    # CI 환경에서는 포트 매핑이 필요 없을 수 있습니다. 포트 매핑을 제거하여 포트 충돌 방지
+    # ports:
+    #   - "6379:6379"
 
   oracle_db:
     image: gvenzl/oracle-xe:latest
@@ -29,5 +30,6 @@ services:
       - ORACLE_PASSWORD=h12345d          # Oracle 비밀번호 설정
       - ORACLE_PDB=xepdb1                # PDB(Pluggable Database) 이름 설정
       - ORACLE_DATABASE=xepdb1           # 데이터베이스 이름 설정
-    ports:
-      - "1521:1521"
+    # CI 환경에서는 포트 매핑이 필요 없을 수 있습니다. 포트 매핑을 제거하여 포트 충돌 방지
+    # ports:
+    #   - "1521:1521"
