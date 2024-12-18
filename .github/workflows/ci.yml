@@ -26,12 +26,9 @@ jobs:
           ORACLE_DATABASE: xepdb1
 
     steps:
-      # 1. 코드 체크아웃 (명시적 Repository URL 추가)
+      # 1. 코드 체크아웃
       - name: Checkout Code
         uses: actions/checkout@v4
-        with:
-          repository: newneeew/highEnd
-          ref: main
 
       # 2. JDK 21 설정
       - name: Set up JDK 21
@@ -40,32 +37,38 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      # 3. Gradle 캐싱
+      # 3. Docker Compose 설치 (GitHub Action 사용)
+      - name: Set up Docker Compose
+        uses: docker/setup-compose@v3
+        with:
+          version: '2.20.3' # 원하는 버전으로 설정
+
+      # 4. Gradle 캐싱
       - name: Cache Gradle Dependencies
         uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
-          key: "gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}"
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             gradle-${{ runner.os }}-
 
-      # 4. Gradle 실행 권한 부여
+      # 5. Gradle 실행 권한 부여
       - name: Grant Execute Permission for Gradle Wrapper
         run: chmod +x ./gradlew
 
-      # 5. Gradle 빌드 및 상세 로그 출력
+      # 6. Gradle 빌드 및 상세 로그 출력
       - name: Build with Gradle
         run: ./gradlew build --info
 
-      # 6. Docker Compose로 서비스 실행
+      # 7. Docker Compose로 서비스 실행
       - name: Run Docker Compose
         run: docker-compose up -d
 
-      # 7. Docker 이미지 빌드
+      # 8. Docker 이미지 빌드
       - name: Build Docker Image
         run: docker build -t springboot-app .
 
-      # 8. Docker 컨테이너 실행 확인
+      # 9. Docker 컨테이너 실행 확인
       - name: Test Docker Container
         run: |
           docker run --rm -p 80:80 --name springboot-test-app springboot-app &
