@@ -66,5 +66,5 @@ jobs:
       # 11. Docker 컨테이너 실행 확인
       - name: Test Docker Container
         run: |
-          # 애플리케이션이 호스트 포트 8080에서 실행 중인지 확인
-          curl --fail http://localhost:8080 || exit 1
+          # 애플리케이션이 호스트 포트 8080에서 실행 중인지 확인 (인증 포함)
+          curl --fail --user user:password http://localhost:8080 || exit 1
