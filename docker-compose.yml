@@ -24,6 +24,11 @@ services:
     # CI 환경에서는 포트 매핑이 필요 없으므로 주석 처리
     # ports:
     #   - "6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   oracle_db:
     image: gvenzl/oracle-xe:latest
