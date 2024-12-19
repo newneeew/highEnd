@@ -1,70 +1,42 @@
-name: CI Pipeline
+name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
-      # 1. 코드 체크아웃
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v2
 
-      # 2. JDK 21 설정
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v3
         with:
           java-version: '21'
-          distribution: 'temurin'
 
-      # 3. Docker Compose 설치
-      - name: Install Docker Compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
-
-      # 4. Gradle 캐싱
-      - name: Cache Gradle Dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper/
-          key: "gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}"
-          restore-keys: |
-            gradle-${{ runner.os }}-
-
-      # 5. Gradle 실행 권한 부여
-      - name: Grant Execute Permission for Gradle Wrapper
-        run: chmod +x ./gradlew
-
-      # 6. Gradle 빌드 및 상세 로그 출력
       - name: Build with Gradle
-        run: ./gradlew bootJar --info
+        run: ./gradlew build
 
-      # 7. JAR 파일 존재 확인
-      - name: Verify JAR File
-        run: ls -la build/libs
-
-      # 8. Docker 이미지 빌드
       - name: Build Docker Image
         run: docker build -t springboot-app .
 
-      # 9. Docker Compose로 서비스 실행
-      - name: Run Docker Compose
-        run: docker-compose up -d
+      - name: Run Docker Container
+        run: docker run -d -p 8080:80 --name springboot-app springboot-app
 
-      # 10. 서비스 준비 시간 대기
-      - name: Wait for Services to Start
-        run: sleep 30
+      - name: Wait for Application to Start
+        run: |
+          for i in {1..30}; do
+            nc -z localhost 8080 && break
+            echo "Waiting for application to start..."
+            sleep 1
+          done
 
-      # 11. Docker 컨테이너 실행 확인
       - name: Test Docker Container
         run: |
           # 애플리케이션이 호스트 포트 8080에서 실행 중인지 확인 (인증 포함)
-          curl --fail --user highend:h12345d http://localhost:80 || exit 1
+          curl --fail --user highend:h12345d http://localhost:8080 || exit 1
