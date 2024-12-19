@@ -55,13 +55,16 @@ jobs:
       - name: Build Docker Image
         run: docker build -t springboot-app .
 
-      # 9. Docker Compose로 서비스 실행 (필요 시)
+      # 9. Docker Compose로 서비스 실행
       - name: Run Docker Compose
         run: docker-compose up -d
 
-      # 10. Docker 컨테이너 실행 확인
+      # 10. 서비스 준비 시간 대기
+      - name: Wait for Services to Start
+        run: sleep 30
+
+      # 11. Docker 컨테이너 실행 확인
       - name: Test Docker Container
         run: |
-          docker run --rm -p 80:80 --name springboot-test-app springboot-app &
-          sleep 10
-          curl --fail http://localhost || exit 1
+          # 애플리케이션이 호스트 포트 8080에서 실행 중인지 확인
+          curl --fail http://localhost:8080 || exit 1

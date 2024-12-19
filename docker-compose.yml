@@ -13,8 +13,10 @@ services:
       - SPRING_REDIS_HOST=redis
       - SPRING_REDIS_PORT=6379
     depends_on:
-      - redis
-      - oracle_db
+      redis:
+        condition: service_healthy
+      oracle_db:
+        condition: service_healthy
 
   redis:
     image: redis:latest
@@ -33,3 +35,8 @@ services:
     # CI 환경에서는 포트 매핑이 필요 없으므로 주석 처리
     # ports:
     #   - "1521:1521"
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'SELECT 1 FROM DUAL;' | sqlplus -s system/h12345d@//localhost:1521/xepdb1 | grep 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
