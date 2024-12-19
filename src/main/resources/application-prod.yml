@@ -1,12 +1,9 @@
 server:
-  port: 80  # Docker Compose에서 호스트 포트 8080으로 매핑됨
+  port: 80  # 기본 포트 설정 (필요 시 변경 가능)
 
 spring:
-  application:
-    name: shop
-
   datasource:
-    url: jdbc:log4jdbc:oracle:thin:@oracle-db:1521/xepdb1  # 'oracle-db'는 Docker Compose 서비스 이름
+    url: jdbc:log4jdbc:oracle:thin:@oracle-db:1521/xepdb1
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     username: sesac_highend
     password: h12345d
@@ -21,31 +18,24 @@ spring:
       ddl-auto: update
     show-sql: true
 
-  sql:
-    init:
-      mode: always
-
-  thymeleaf:
-    cache: false
-
   redis:
-    host: redis  # 'redis'는 Docker Compose 서비스 이름
+    host: redis
     port: 6379
 
   security:
     user:
       name: highend
       password: h12345d
-    enabled: false  # Spring Security 비활성화 (필요 시 활성화)
+    enabled: false
 
 management:
   endpoints:
     web:
       exposure:
-        include: health, info  # health와 info 엔드포인트 노출
+        include: health, info
   endpoint:
     health:
-      show-details: always  # 상세 헬스 정보 표시
+      show-details: always
 
 logging:
   level:

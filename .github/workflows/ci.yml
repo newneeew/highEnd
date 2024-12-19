@@ -59,23 +59,28 @@ jobs:
       - name: Run Docker Compose
         run: docker-compose up -d
 
-      # 10. 서비스 준비 시간 대기
+      # 10. 서비스 준비 시간 대기 (애플리케이션이 시작될 때까지 대기)
       - name: Wait for Services to Start
         run: |
           for i in {1..60}; do
-            curl -s http://localhost:8080/actuator/health && break
+            # Actuator 헬스체크 엔드포인트에 인증 정보를 포함하여 접근
+            curl -s -u ${{ secrets.CURL_USERNAME }}:${{ secrets.CURL_PASSWORD }} http://localhost:8080/actuator/health && break
             echo "Waiting for application to start... ($i)"
             sleep 1
           done
-          curl -s http://localhost:8080/actuator/health
+          curl -s -u ${{ secrets.CURL_USERNAME }}:${{ secrets.CURL_PASSWORD }} http://localhost:8080/actuator/health
 
       # 11. Docker 컨테이너 실행 확인
       - name: Test Docker Container
         run: |
           # 애플리케이션이 호스트 포트 8080에서 실행 중인지 확인 (인증 포함)
-          curl --fail --user highend:h12345d http://localhost:8080 || exit 1
+          curl --fail --user ${{ secrets.CURL_USERNAME }}:${{ secrets.CURL_PASSWORD }} http://localhost:8080 || exit 1
 
       # 12. (선택 사항) Docker Compose 서비스 종료
       - name: Tear Down Docker Compose
         if: always()
         run: docker-compose down
+
+      # 13. 애플리케이션 로그 확인 (디버깅용)
+      - name: Check Application Logs
+        run: docker logs springboot-app

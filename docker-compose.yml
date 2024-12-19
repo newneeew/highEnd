@@ -7,6 +7,7 @@ services:
     ports:
       - "8080:80"  # 호스트 포트 8080을 컨테이너 포트 80에 매핑
     environment:
+      - SPRING_PROFILES_ACTIVE=prod  # 프로파일 설정
       - SPRING_DATASOURCE_URL=jdbc:log4jdbc:oracle:thin:@oracle-db:1521/xepdb1
       - SPRING_DATASOURCE_USERNAME=sesac_highend
       - SPRING_DATASOURCE_PASSWORD=h12345d
@@ -21,9 +22,9 @@ services:
   redis:
     image: redis:latest
     container_name: redis-server
-      # CI 환경에서는 포트 매핑이 필요 없으므로 주석 처리
-      # ports:
-    # - "6379:6379"
+    # CI 환경에서는 포트 매핑이 필요 없으므로 주석 처리
+    # ports:
+    #   - "6379:6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -37,9 +38,9 @@ services:
       - ORACLE_PASSWORD=h12345d          # Oracle 비밀번호 설정
       - ORACLE_PDB=xepdb1                # PDB(Pluggable Database) 이름 설정
       - ORACLE_DATABASE=xepdb1           # 데이터베이스 이름 설정
-      # CI 환경에서는 포트 매핑이 필요 없으므로 주석 처리
-      # ports:
-      # - "1521:1521"
+    # CI 환경에서는 포트 매핑이 필요 없으므로 주석 처리
+    # ports:
+    #   - "1521:1521"
     healthcheck:
       test: ["CMD-SHELL", "echo 'SELECT 1 FROM DUAL;' | sqlplus -s system/h12345d@//oracle-db:1521/xepdb1 | grep 1"]
       interval: 10s
