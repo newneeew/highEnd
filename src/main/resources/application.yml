@@ -38,8 +38,8 @@ logging:
     org.hibernate.type.descriptor.sql: trace
 
 # Spring Security 기본 설정 (Optional)
-# spring:
-#   security:
-#     user:
-#       name: user
-#       password: password
+spring:
+  security:
+    user:
+      name: highend
+      password: h12345d
