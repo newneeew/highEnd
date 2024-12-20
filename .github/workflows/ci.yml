@@ -63,21 +63,22 @@ jobs:
       - name: Wait for Services to Start
         run: |
           for i in {1..60}; do
-            # Actuator 헬스체크 엔드포인트에 인증 정보를 포함하여 접근
-            curl -s -u ${{ secrets.CURL_USERNAME }}:${{ secrets.CURL_PASSWORD }} http://localhost:8080/actuator/health && break
+            # Actuator 헬스체크 엔드포인트에 인증 없이 접근
+            curl -s http://localhost:8080/actuator/health && break
             echo "Waiting for application to start... ($i)"
             sleep 1
           done
-          curl -s -u ${{ secrets.CURL_USERNAME }}:${{ secrets.CURL_PASSWORD }} http://localhost:8080/actuator/health
+          # 최종 헬스체크 확인
+          curl -s http://localhost:8080/actuator/health
 
       # 11. Docker 컨테이너 실행 확인
       - name: Test Docker Container
         run: |
-          # 애플리케이션이 호스트 포트 8080에서 실행 중인지 확인 (인증 포함)
-          curl --fail --user ${{ secrets.CURL_USERNAME }}:${{ secrets.CURL_PASSWORD }} http://localhost:8080 || exit 1
+          # 애플리케이션이 호스트 포트 8080에서 실행 중인지 확인 (인증 없이)
+          curl --fail http://localhost:8080 || exit 1
 
       # 12. (선택 사항) Docker Compose 서비스 종료
-      - name: Tear Down Docker Compos
+      - name: Tear Down Docker Compose
         if: always()
         run: docker-compose down
 

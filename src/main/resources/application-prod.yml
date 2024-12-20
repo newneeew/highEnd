@@ -1,7 +1,12 @@
+# src/main/resources/application-prod.yml
+
 server:
-  port: 80  # 기본 포트 설정 (필요 시 변경 가능)
+  port: 80  # 프로덕션 환경에서 사용할 포트
 
 spring:
+  application:
+    name: shop
+
   datasource:
     url: jdbc:log4jdbc:oracle:thin:@oracle-db:1521/xepdb1
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
@@ -18,15 +23,16 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  sql:
+    init:
+      mode: always
+
+  thymeleaf:
+    cache: false
+
   redis:
     host: redis
     port: 6379
-
-  security:
-    user:
-      name: highend
-      password: h12345d
-    enabled: false
 
 management:
   endpoints:
