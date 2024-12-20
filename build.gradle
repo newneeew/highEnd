@@ -34,17 +34,17 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4:1.16'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+//	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+//	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-	compileOnly "org.projectlombok:lombok:${lombokVersion}"
-	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+//	compileOnly "org.projectlombok:lombok:${lombokVersion}"
+//	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-	testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+//	testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+//	testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }
