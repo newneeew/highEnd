@@ -77,7 +77,7 @@ jobs:
           curl --fail --user ${{ secrets.CURL_USERNAME }}:${{ secrets.CURL_PASSWORD }} http://localhost:8080 || exit 1
 
       # 12. (선택 사항) Docker Compose 서비스 종료
-      - name: Tear Down Docker Compose
+      - name: Tear Down Docker Compos
         if: always()
         run: docker-compose down
 
