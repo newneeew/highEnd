@@ -37,14 +37,14 @@ dependencies {
 //	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 //	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-//	compileOnly "org.projectlombok:lombok:${lombokVersion}"
-//	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+	compileOnly "org.projectlombok:lombok:${lombokVersion}"
+	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-//	testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-//	testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+	testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+	testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }
