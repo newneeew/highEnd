@@ -1,29 +1,49 @@
 package com.highend.shop.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+@Getter
+@Entity
+@NoArgsConstructor
 public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "vid", updatable = false)
+    @Column(updatable = false)
     private Long id;
 
-    @Column(name = "url", nullable = false)
+    @Column(nullable = false)
     private String url;
 
-    @Column(name = "title", nullable = false)
+    @Column(nullable = false)
     private String title;
 
     @CreatedDate
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdDate;
+    @Column(nullable = false)
+    private LocalDateTime created_at;
 
-    @Column(name = "publishTime", nullable = false)
-    private LocalDateTime publishTime;
+    @Column(nullable = false)
+    private LocalDateTime publish_at;
+
+    @OneToMany(mappedBy = "video", cascade = CascadeType.REMOVE)
+    private List<Product> productList;
+
+    @Builder
+    public Video(String url, String title, LocalDateTime publish_at) {
+        this.url = url;
+        this.title = title;
+        this.publish_at = publish_at;
+    }
+
+    public void update(String url, String title, LocalDateTime publish_at) {
+        this.url = url;
+        this.title = title;
+        this.publish_at = publish_at;
+    }
 }

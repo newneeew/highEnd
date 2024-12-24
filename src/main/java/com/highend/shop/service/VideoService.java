@@ -9,13 +9,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class VideoService {
     private final VideoRepository videoRepository;
 
-    public Video save(AddVideoRequest request){
+    public Video save(AddVideoRequest request) {
         return videoRepository.save(request.toEntity());
     }
 
@@ -24,8 +25,11 @@ public class VideoService {
     }
 
     public Video findById(long id) {
-        return videoRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("not found video: " + id));
+        Optional<Video> video = videoRepository.findById(id);
+        if (video == null) {
+            return null;
+        }
+        return video.get();
     }
 
     public void delete(long id) {
@@ -34,9 +38,12 @@ public class VideoService {
 
     @Transactional
     public Video update(long id, UpdateVideoRequest request) {
-        Video video = videoRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("not found product: " + id));
-        video.update(request.getUrl(), request.getTitle(), request.getPublish_at());
-        return video;
+        Optional<Video> video = videoRepository.findById(id);
+        if (video == null) {
+            return null;
+        }
+        Video updateVideo = video.get();
+        updateVideo.update(request.getUrl(), request.getTitle(), request.getPublish_at());
+        return updateVideo;
     }
 }

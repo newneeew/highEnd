@@ -5,35 +5,40 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Entity
 @NoArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pid", updatable = false)
+    @Column(updatable = false)
     private Long id;
 
-    @Column(name = "pname", nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "description", nullable = false)
+    @Column(nullable = false)
     private String description;
 
-    @Column(name = "price", nullable = false)
+    @Column(nullable = false)
     private int price;
 
-    @Column(name = "img", nullable = false)
+    @Column
     private String img;
 
-    @Column(name = "limited", nullable = false)
+    @Column(nullable = false)
     private boolean limited;
 
-    @Column(name = "stock", nullable = false)
+    @Column(nullable = false)
     private int stock;
 
     @ManyToOne
     private Video video;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    OrderDetail orderDetail;
 
     @Builder
     public Product(String name, String description, int price, boolean limited, int stock, Video video) {
@@ -45,4 +50,10 @@ public class Product {
         this.video = video;
     }
 
+    public void update(String name, String description, int price, int stock) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+    }
 }
