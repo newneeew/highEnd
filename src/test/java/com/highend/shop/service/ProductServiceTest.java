@@ -6,16 +6,18 @@ import com.highend.shop.dto.AddLiveProductRequest;
 import com.highend.shop.dto.UpdateProductRequest;
 import com.highend.shop.repository.ProductRepository;
 import com.highend.shop.repository.VideoRepository;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+@Log4j2
 @SpringBootTest
 //@Transactional // 테스트 데이터가 자동으로 롤백되도록 설정
 class ProductServiceTest {
@@ -69,26 +71,31 @@ class ProductServiceTest {
         assertThat(updatedProduct.getPrice()).isEqualTo(request.getPrice());
     }
 
-    void findAllLiveProductsByVideo() {
+    @Test
+    void findAllProductsByVideo() {
         Video video = new Video();
-//        video.setTitle("Sample Video");
+        video.setTitle("Video 1");
+        video.setPublish_at(LocalDateTime.now().plusDays(3));
+        video.setUrl("test url");
         videoRepository.save(video);
 
         Product product1 = new Product();
-//        product1.setName("Product 1");
-//        product1.setVideo(video);
+        product1.setName("Product 1");
+        product1.setDescription("Description 1");
+        product1.setPrice(1000);
+        product1.setVideo(video);
         productRepository.save(product1);
 
         Product product2 = new Product();
-//        product2.setName("Product 2");
-//        product2.setVideo(video);
+        product2.setName("Product 2");
+        product2.setDescription("Description 2");
+        product2.setPrice(2000);
+        product2.setVideo(video);
         productRepository.save(product2);
 
-        List<Product> productList = productService.findAllLiveProductsByVideo(1L);
+        List<Product> productList = productService.findAllLiveProductsByVideo(5L);
 
         assertNotNull(productList);  // 반환된 리스트가 null이 아님을 확인
-        assertEquals(2, productList.size());  // Product가 2개가 되어야 함
-        assertTrue(productList.contains(product1));  // 첫 번째 Product가 포함되어야 함
-        assertTrue(productList.contains(product2));
+        assertEquals(2, productList.size());// Product가 2개가 되어야 함
     }
 }

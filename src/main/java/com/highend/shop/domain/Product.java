@@ -1,13 +1,11 @@
 package com.highend.shop.domain;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
+@Setter
 @Getter
 @Entity
 @NoArgsConstructor
@@ -29,10 +27,10 @@ public class Product {
     @Column
     private String img;
 
-    @Column(nullable = false)
+    @Column
     private boolean limited;
 
-    @Column(nullable = false)
+    @Column
     private int stock;
 
     @ManyToOne

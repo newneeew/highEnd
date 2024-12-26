@@ -3,7 +3,9 @@ package com.highend.shop.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
 @Getter
 @Entity
 @NoArgsConstructor
@@ -20,7 +22,7 @@ public class OrderDetail {
     int quantity;
 
     @ManyToOne
-    Orders order;
+    Orders orders;
 
     @ManyToOne
     Product product;
