@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
+@Setter
 @Getter
 @Entity
 @NoArgsConstructor
@@ -38,7 +40,7 @@ public class Product {
     private Video video;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
-    OrderDetail orderDetail;
+    List<OrderDetail> orderDetailList;
 
     @Builder
     public Product(String name, String description, int price, boolean limited, int stock, Video video) {

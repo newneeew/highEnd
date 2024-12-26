@@ -38,19 +38,15 @@ public class ProductService {
 
     public List<Product> findAllLiveProductsByVideo(Long vid) {
         Optional<Video> video = videoRepository.findById(vid);
-        if (video == null) {
-//            List<Product> emptyList = new ArrayList<Product>();
-            return null;
+        if (video.isEmpty()) {
+            return new ArrayList<>();  // 빈 리스트 반환
         }
         return productRepository.findAllByVideo(video.get());
     }
 
     public Product findById(long id) {
-        Optional<Product> product = productRepository.findById(id);
-        if (product == null) {
-            return null;
-        }
-        return product.get();
+        Product product = productRepository.findById(id).orElse(null);
+        return product;
     }
 
     public void delete(long id) {
@@ -59,12 +55,8 @@ public class ProductService {
 
     @Transactional
     public Product update(long id, UpdateProductRequest request) {
-        Optional<Product> product = productRepository.findById(id);
-        if (product == null) {
-            return null;
-        }
-        Product updateProduct = product.get();
-        updateProduct.update(request.getName(), request.getDescription(), request.getPrice(), request.getStock());
-        return updateProduct;
+        Product product = productRepository.findById(id).orElse(null);
+        product.update(request.getName(), request.getDescription(), request.getPrice(), request.getStock());
+        return product;
     }
 }

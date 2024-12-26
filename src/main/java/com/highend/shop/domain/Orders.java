@@ -3,15 +3,15 @@ package com.highend.shop.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.engine.internal.Cascade;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
 @NoArgsConstructor
-public class Order {
+public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false)
@@ -25,7 +25,7 @@ public class Order {
     int total;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
-    OrderDetail orderDetail;
+    List<OrderDetail> orderDetailList;
 //    @ManyToOne
 //    User user;
 }

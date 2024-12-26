@@ -1,7 +1,12 @@
 package com.highend.shop.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@Entity
+@NoArgsConstructor
 public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +20,7 @@ public class OrderDetail {
     int quantity;
 
     @ManyToOne
-    Order order;
+    Orders order;
 
     @ManyToOne
     Product product;

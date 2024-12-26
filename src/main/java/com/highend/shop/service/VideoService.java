@@ -25,11 +25,8 @@ public class VideoService {
     }
 
     public Video findById(long id) {
-        Optional<Video> video = videoRepository.findById(id);
-        if (video == null) {
-            return null;
-        }
-        return video.get();
+        Video video = videoRepository.findById(id).orElse(null);
+        return video;
     }
 
     public void delete(long id) {
@@ -38,12 +35,8 @@ public class VideoService {
 
     @Transactional
     public Video update(long id, UpdateVideoRequest request) {
-        Optional<Video> video = videoRepository.findById(id);
-        if (video == null) {
-            return null;
-        }
-        Video updateVideo = video.get();
-        updateVideo.update(request.getUrl(), request.getTitle(), request.getPublish_at());
-        return updateVideo;
+        Video video = videoRepository.findById(id).orElse(null);
+        video.update(request.getUrl(), request.getTitle(), request.getPublish_at());
+        return video;
     }
 }

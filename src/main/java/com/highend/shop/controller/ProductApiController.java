@@ -1,7 +1,6 @@
 package com.highend.shop.controller;
 
 import com.highend.shop.domain.Product;
-import com.highend.shop.domain.Video;
 import com.highend.shop.dto.AddLiveProductRequest;
 import com.highend.shop.dto.ProductResponse;
 import com.highend.shop.dto.UpdateProductRequest;
@@ -29,7 +28,7 @@ public class ProductApiController {
     @GetMapping("/api/products")
     public ResponseEntity<List<ProductResponse>> findAllProducts(boolean flag) {
         List<ProductResponse> products;
-        if (flag == true) {
+        if (flag) {
             products = productService.findAllLiveProduct()
                     .stream()
                     .map(ProductResponse::new)
