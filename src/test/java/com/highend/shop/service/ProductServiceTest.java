@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,9 +34,9 @@ class ProductServiceTest {
         // Given
         AddLiveProductRequest request = new AddLiveProductRequest();
         // 요청 데이터를 설정합니다. 예: 이름, 가격 등
-        request.setName("Sample Product"); request.setPrice(1000);
-        request.setDescription("Description"); request.setStock(10);
-        request.setLimited(false);
+//        request.setName("Sample Product"); request.setPrice(1000);
+//        request.setDescription("Description"); request.setStock(10);
+//        request.setLimited(false);
 
         // When
         Product savedProduct = productService.save(request);
@@ -57,10 +56,10 @@ class ProductServiceTest {
     @Test
     void updateProduct() {
         UpdateProductRequest request = new UpdateProductRequest();
-        request.setName("상품2");
-        request.setDescription("설명2");
-        request.setPrice(1000);
-        request.setStock(3);
+//        request.setName("상품2");
+//        request.setDescription("설명2");
+//        request.setPrice(1000);
+//        request.setStock(3);
 
         Product updatedProduct = productService.update(1L, request);
 
@@ -72,17 +71,17 @@ class ProductServiceTest {
 
     void findAllLiveProductsByVideo() {
         Video video = new Video();
-        video.setTitle("Sample Video");
+//        video.setTitle("Sample Video");
         videoRepository.save(video);
 
         Product product1 = new Product();
-        product1.setName("Product 1");
-        product1.setVideo(video);
+//        product1.setName("Product 1");
+//        product1.setVideo(video);
         productRepository.save(product1);
 
         Product product2 = new Product();
-        product2.setName("Product 2");
-        product2.setVideo(video);
+//        product2.setName("Product 2");
+//        product2.setVideo(video);
         productRepository.save(product2);
 
         List<Product> productList = productService.findAllLiveProductsByVideo(1L);
