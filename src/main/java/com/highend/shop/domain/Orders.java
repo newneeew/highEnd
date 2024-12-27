@@ -1,6 +1,7 @@
 package com.highend.shop.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,4 +33,9 @@ public class Orders {
     List<OrderDetail> orderDetailList;
 //    @ManyToOne
 //    User user;
+
+    @Builder
+    public Orders (int total) {
+        this.total = total;
+    }
 }

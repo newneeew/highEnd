@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
+@ToString
 public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

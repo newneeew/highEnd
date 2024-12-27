@@ -8,9 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    @Query("SELECT p FROM Product p WHERE p.limited = false")
-    List<Product> findAllLimitedFalse();
-
     @Query("SELECT p FROM Product p WHERE p.limited = true")
     List<Product> findAllLimitedTrue();
 

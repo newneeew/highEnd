@@ -1,6 +1,7 @@
 package com.highend.shop.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +17,7 @@ public class OrderDetail {
     private Long id;
 
     @Column(nullable = false)
-    int subtitle;
+    int subTotal;
 
     @Column(nullable = false)
     int quantity;
@@ -26,4 +27,10 @@ public class OrderDetail {
 
     @ManyToOne
     Product product;
+
+    @Builder
+    public OrderDetail (int subTotal, int quantity) {
+        this.subTotal = subTotal;
+        this.quantity = quantity;
+    }
 }

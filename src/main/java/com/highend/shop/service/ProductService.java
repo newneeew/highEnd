@@ -24,16 +24,12 @@ public class ProductService {
         return productRepository.save(request.toEntity());
     }
 
-    public List<Product> findAllLiveProduct() {
-        List productList = productRepository.findAllLimitedFalse();
+    public List<Product> findAllLimitedProduct() {
+        List productList = productRepository.findAllLimitedTrue();
         if (productList.isEmpty()) {
             return null;
         }
         return productList;
-    }
-
-    public List<Product> findAllLimitedProduct() {
-        return productRepository.findAllLimitedTrue();
     }
 
     public List<Product> findAllLiveProductsByVideo(Long vid) {

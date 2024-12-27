@@ -2,13 +2,13 @@ package com.highend.shop.dto;
 
 import com.highend.shop.domain.Product;
 import com.highend.shop.domain.Video;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
+@ToString
 public class AddLiveProductRequest {
     private String name;
     private String description;
