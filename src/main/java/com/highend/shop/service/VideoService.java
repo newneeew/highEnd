@@ -24,7 +24,7 @@ public class VideoService {
     }
 
     public Video findById(long id) {
-        Video video = videoRepository.findById(id).orElse(null);
+        Video video = videoRepository.findById(id).orElse(new Video());
         return video;
     }
 
@@ -34,7 +34,7 @@ public class VideoService {
 
     @Transactional
     public Video update(long id, UpdateVideoRequest request) {
-        Video video = videoRepository.findById(id).orElse(null);
+        Video video = videoRepository.findById(id).orElse(new Video());
         video.update(request.getUrl(), request.getTitle(), request.getPublish_at());
         return video;
     }

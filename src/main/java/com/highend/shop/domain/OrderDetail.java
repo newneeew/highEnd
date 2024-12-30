@@ -29,8 +29,9 @@ public class OrderDetail {
     Product product;
 
     @Builder
-    public OrderDetail (int subTotal, int quantity) {
+    public OrderDetail (int subTotal, int quantity, Product product) {
         this.subTotal = subTotal;
         this.quantity = quantity;
+        this.product = product;
     }
 }

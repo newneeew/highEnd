@@ -27,17 +27,14 @@ public class Product {
     @Column
     private String img;
 
-    @Column
+    @Column(nullable = false)
     private boolean limited;
 
-    @Column
+    @Column(nullable = false)
     private int stock;
 
     @ManyToOne
     private Video video;
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
-    List<OrderDetail> orderDetailList;
 
     @Builder
     public Product(String name, String description, int price, boolean limited, int stock, Video video) {

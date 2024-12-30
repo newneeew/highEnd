@@ -1,10 +1,7 @@
 package com.highend.shop.domain;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -16,6 +13,7 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
+@ToString
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,10 +27,11 @@ public class Orders {
     @Column(nullable = false)
     int total;
 
-    @OneToMany(mappedBy = "orders", cascade = CascadeType.REMOVE)
-    List<OrderDetail> orderDetailList;
 //    @ManyToOne
 //    User user;
+
+    @Column(nullable = false)
+    private boolean completed;
 
     @Builder
     public Orders (int total) {

@@ -5,7 +5,6 @@ import com.highend.shop.dto.AddLiveProductRequest;
 import com.highend.shop.dto.ProductResponse;
 import com.highend.shop.dto.UpdateProductRequest;
 import com.highend.shop.service.ProductService;
-import com.highend.shop.service.VideoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,6 @@ import java.util.List;
 @RestController
 public class ProductApiController {
     private final ProductService productService;
-    private final VideoService videoService;
 
     @GetMapping("/api/limitedProducts")
     public ResponseEntity<List<ProductResponse>> findAllProducts() {
@@ -32,7 +30,7 @@ public class ProductApiController {
                 .body(products);
     }
 
-    @PostMapping("/api/liveProducts")
+    @PostMapping("/api/liveProducts") // 현재 product 안에 비디오를 가져와서 저장하게 해놨는데 vid로 가져와서 할 건지
     public ResponseEntity<Product> addProduct(@RequestBody AddLiveProductRequest request) {
         log.info("여기서부터 시작!");
         log.info("request: " + request.toString());
@@ -41,8 +39,8 @@ public class ProductApiController {
                 .body(savedProduct);
     }
 
-    @GetMapping("/api/liveProducts/{vid}")
-    public ResponseEntity<List<ProductResponse>> findAllLiveProductsByVideo(@PathVariable long vid) {
+    @GetMapping("/api/liveProducts") //PathVariable과 RequestParam 중에 뭐가 더 나은지 물어보기
+    public ResponseEntity<List<ProductResponse>> findAllLiveProductsByVideo(@RequestParam long vid) {
         List<ProductResponse> products = new ArrayList<>();
         List<Product> productList = productService.findAllLiveProductsByVideo(vid);
         for(Product product : productList) {

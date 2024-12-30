@@ -33,9 +33,6 @@ public class Video {
     @Column(nullable = false)
     private LocalDateTime publish_at;
 
-    @OneToMany(mappedBy = "video", cascade = CascadeType.REMOVE)
-    private List<Product> productList;
-
     @Builder
     public Video(String url, String title, LocalDateTime publish_at) {
         this.url = url;
